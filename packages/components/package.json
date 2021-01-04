@@ -1,0 +1,30 @@
+{
+  "name": "@react-canvas-ui/components",
+  "version": "0.0.1-alpha.9",
+  "description": "> TODO: description",
+  "author": "Zhang Haocong <kakera@gmail.com>",
+  "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
+  "license": "MIT",
+  "main": "dist/umd/components.js",
+  "module": "dist/esm/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "types": "dist/esm/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/react-canvas-ui/react-canvas-ui.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "dev": "tsc --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
+  },
+  "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2"
+}
