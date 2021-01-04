@@ -1,0 +1,27 @@
+{
+  "name": "@react-canvas-ui/renderer",
+  "version": "0.0.0",
+  "description": "React renderer of react-canvas-ui",
+  "author": "Zhang Haocong <kakera@gmail.com>",
+  "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
+  "license": "MIT",
+  "main": "dist/renderer.umd.js",
+  "module": "dist/renderer.esm.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/react-canvas-ui/react-canvas-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
+  },
+  "devDependencies": {
+    "react-reconciler": "^0.26.1"
+  }
+}

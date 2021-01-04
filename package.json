@@ -1,0 +1,26 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lerna": "lerna",
+    "build:dev": "rollup -c"
+  },
+  "devDependencies": {
+    "@lerna/batch-packages": "^3.16.0",
+    "@lerna/filter-packages": "^3.18.0",
+    "@lerna/project": "^3.21.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "lerna": "^3.22.1",
+    "rollup": "^2.35.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-string": "^3.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript": "^1.0.1",
+    "typescript": "^4.1.3"
+  }
+}
