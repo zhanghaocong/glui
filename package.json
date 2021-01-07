@@ -25,6 +25,6 @@
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
-    "typescript": "next"
+    "typescript": "^4.1.3"
   }
 }
