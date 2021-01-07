@@ -8,7 +8,7 @@ import path from 'path'
 import sourcemaps from 'rollup-plugin-sourcemaps'
 import { string } from 'rollup-plugin-string'
 import { terser } from 'rollup-plugin-terser'
-import typescript from 'rollup-plugin-typescript2'
+import ts from 'rollup-plugin-ts'
 
 const __PRODUCTION__ = process.env.NODE_ENV === 'production'
 
@@ -36,7 +36,28 @@ const main = async () => {
       }),
       commonjs(),
       json(),
-      typescript(),
+      ts({
+        hook: {
+          outputPath: (prevPath, kind) => {
+            // 重定向 d.ts
+            if (kind === 'declaration') {
+              // 此时 path 是这样的路径
+              // `/Users/.../react-canvas-ui/packages/renderer/dist/esm/index.d.ts`
+              // 我们将最终文件移动到 dist 目录，变成
+              // `/Users/.../react-canvas-ui/packages/renderer/dist/esm/index.d.ts`
+              const info = path.parse(prevPath)
+
+              // 移除 min.d.ts 中 `min` 部分
+              const base = info.base.replace(/\.min\.d\.ts/, '.d.ts')
+
+              // 将输出目录移动到 dist/
+              const dir = path.resolve(info.dir, '../types')
+              const nextPath = path.resolve(dir, base)
+              return nextPath
+            }
+          }
+        }
+      }),
       string({
           include: [
               '**/*.frag',

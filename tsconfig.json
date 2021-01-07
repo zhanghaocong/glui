@@ -10,6 +10,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": "./",
@@ -18,8 +19,8 @@
         "packages/*/src",
       ]
     },
-    "declaration": true,
-    "declarationMap": true
+    "outDir": "out",
+    "declaration": true
   },
   "exclude": [
     "node_modules",
@@ -32,9 +33,6 @@
     "rollup.config.js"
   ],
   "ts-node": {
-    "files": true,
-    "compilerOptions": {
-      "esModuleInterop": true
-    }
+    "files": true
   }
 }
