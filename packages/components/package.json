@@ -1,6 +1,6 @@
 {
   "name": "@react-canvas-ui/components",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "> TODO: description",
   "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
@@ -24,5 +24,6 @@
   },
   "bugs": {
     "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
-  }
+  },
+  "gitHead": "73d5e220f1bdad7b09950c3ff9b977ef409b9fa1"
 }

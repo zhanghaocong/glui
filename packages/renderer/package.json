@@ -1,6 +1,6 @@
 {
   "name": "@react-canvas-ui/renderer",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "React renderer of react-canvas-ui",
   "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
@@ -25,8 +25,8 @@
   "devDependencies": {
     "react-reconciler": "^0.26.1"
   },
-  "gitHead": "ce9cac309335aa7322817442e9732c9a8cde5714",
+  "gitHead": "73d5e220f1bdad7b09950c3ff9b977ef409b9fa1",
   "dependencies": {
-    "@react-canvas-ui/components": "^0.0.1-alpha.2"
+    "@react-canvas-ui/components": "^0.0.1-alpha.3"
   }
 }
