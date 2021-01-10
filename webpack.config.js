@@ -18,8 +18,11 @@ module.exports = async () => {
   const __PRODUCTION__ = process.env.NODE_ENV === 'production'
   const packages = await getSortedPackages()
   const configs = packages.map(pkg => {
+
+    // throw path.join(path.relative(__dirname, pkg.location), pkg.get('main'))
+    
     return {
-      mode: 'development',
+      mode: 'production',
       context: path.join(pkg.location, 'src'),
       entry: './index.ts',
       externals: pkg.dependencies ? Object.keys(pkg.dependencies) : [],
@@ -27,7 +30,8 @@ module.exports = async () => {
         extensions: [".ts", ".tsx", ".js", "jsx"]
       },
       output: {
-        filename: path.join(path.relative(__dirname, pkg.location), pkg.get('main')),
+        path: pkg.location,
+        filename: pkg.get('main'),
         library: pkg.name,
         libraryTarget: 'umd',
       },
