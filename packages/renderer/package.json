@@ -5,8 +5,8 @@
   "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
   "license": "MIT",
-  "main": "dist/umd/renderer.js",
-  "module": "dist/esm/renderer.js",
+  "main": "dist/umd/renderer.min.js",
+  "module": "dist/esm/renderer.min.js",
   "publishConfig": {
     "access": "public"
   },
@@ -25,5 +25,8 @@
   "devDependencies": {
     "react-reconciler": "^0.26.1"
   },
-  "gitHead": "ce9cac309335aa7322817442e9732c9a8cde5714"
+  "gitHead": "ce9cac309335aa7322817442e9732c9a8cde5714",
+  "dependencies": {
+    "@react-canvas-ui/components": "^0.0.1-alpha.1"
+  }
 }

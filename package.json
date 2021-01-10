@@ -7,8 +7,8 @@
   "scripts": {
     "lerna": "lerna",
     "distclean": "rimraf \"{packages,out}/*/dist\"",
-    "build:dev": "rollup -c",
-    "build:prod": "cross-env NODE_ENV=production rollup -c"
+    "build:dev": "webpack",
+    "build:prod": "cross-env NODE_ENV=production build:dev"
   },
   "devDependencies": {
     "@lerna/batch-packages": "^3.16.0",
@@ -27,6 +27,9 @@
     "rollup-plugin-ts": "^1.3.7",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.29.0",
-    "typescript": "^4.1.3"
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "webpack": "^5.12.2",
+    "webpack-cli": "^4.3.1"
   }
 }

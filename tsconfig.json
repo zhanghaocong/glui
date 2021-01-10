@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "allowJs": false,
     "sourceMap": true,
     "removeComments": false,
     "strict": true,
@@ -19,7 +18,6 @@
         "packages/*/src",
       ]
     },
-    "outDir": "out",
     "declaration": true
   },
   "exclude": [
