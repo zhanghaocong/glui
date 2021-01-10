@@ -1,6 +1,6 @@
 {
   "name": "@react-canvas-ui/renderer",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "React renderer of react-canvas-ui",
   "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
@@ -27,6 +27,6 @@
   },
   "gitHead": "e03cae1d78b46818a92fd1280dfd3259833f64ae",
   "dependencies": {
-    "@react-canvas-ui/components": "^0.0.1-alpha.6"
+    "@react-canvas-ui/components": "^0.0.1-alpha.7"
   }
 }
