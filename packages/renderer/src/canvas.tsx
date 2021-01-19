@@ -1,20 +1,40 @@
-import { FC, memo } from 'react'
-import useMeasure from 'react-use-measure'
+import { AbstractRenderer } from '@pixi/core'
+import { createContext, ReactNode, useEffect, useLayoutEffect } from 'react'
 
-const defaultStyles: React.CSSProperties = {
-  position: 'relative',
-  width: '100%',
-  height: '100%',
-  overflow: 'hidden',
-  backgroundColor: 'aqua',
+type CanvasState = {
+  left: number
+  top: number
+  width: number
+  height: number
+  gl: AbstractRenderer
 }
 
-export const Canvas: FC = memo(() => {
-  const [setRef, size, forceResize] = useMeasure({ scroll: true, debounce: { scroll: 50, resize: 0 }})
-  console.info(size)
-  return (
-    <div ref={ setRef } style={ { ...defaultStyles } }>
-      <canvas width={size.width} height={size.height} style={{ display: 'block' }} />
-    </div>
-  )
-})
+export const CanvasStateContext = createContext({} as CanvasState) // TODO makealwaysthrowobject
+
+export type UseCanvasOptions = {
+  gl: AbstractRenderer
+  left: number
+  top: number
+  width: number
+  height: number
+  children: ReactNode
+}
+export const useCanvas = ({
+  gl,
+  width,
+  height,
+  children
+}: UseCanvasOptions) => {
+  useEffect(() => {
+    gl.resize(width, height)
+  }, [gl, width, height])
+
+  useLayoutEffect(() => {
+    console.info('mount')
+    console.info(children)
+
+    return () => {
+      console.info('unmount children changed')
+    }
+  }, [children])
+}

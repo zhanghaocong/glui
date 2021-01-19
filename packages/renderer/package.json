@@ -28,11 +28,17 @@
   },
   "devDependencies": {
     "react-reconciler": "^0.26.1",
-    "react-use-measure": "^2.0.3",
     "scheduler": "^0.20.1"
   },
   "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2",
   "dependencies": {
-    "@react-canvas-ui/components": "^0.0.1-alpha.9"
+    "@pixi/core": "6.0.0-rc.2",
+    "@pixi/display": "6.0.0-rc.2",
+    "@pixi/interaction": "6.0.0-rc.2",
+    "@pixi/prepare": "6.0.0-rc.2",
+    "@pixi/sprite": "6.0.0-rc.2",
+    "@pixi/ticker": "6.0.0-rc.2",
+    "@react-canvas-ui/components": "^0.0.1-alpha.9",
+    "react-use-measure": "^2.0.3"
   }
 }

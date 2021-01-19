@@ -1,16 +1,12 @@
 {
   "extends": "../../tsconfig.json",
-
   "compilerOptions": {
-    
     "target": "es5",
-
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -24,13 +20,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "paths": {},
-    "composite": true
+    "composite": true,
   },
-
   "include": [
-    "src"
+    "./src"
   ],
-
   "references": [{
     "path": "../../packages/renderer"
   }]
