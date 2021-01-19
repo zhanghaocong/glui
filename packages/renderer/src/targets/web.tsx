@@ -2,6 +2,7 @@ import { memo, MutableRefObject, useLayoutEffect, useMemo, useRef, useState } fr
 import useMeasure, { RectReadOnly } from 'react-use-measure'
 import { useCanvas, UseCanvasOptions } from '../canvas'
 import { makeGl, MakeGlOptions } from '../gl'
+import { Stats } from './stats'
 
 const defaultStyles: React.CSSProperties = {
   position: 'relative',
@@ -39,6 +40,7 @@ export const Canvas = memo(({
     <div ref={ bind } style={{ ...defaultStyles, ...style }} {...wrapperProps}>
       <canvas ref={ canvasRef as MutableRefObject<HTMLCanvasElement> } style={{ display: 'block' }} />
       { initGl }
+      <Stats />
     </div>
   )
 })

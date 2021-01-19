@@ -1,6 +1,7 @@
 import { AbstractRenderer } from '@pixi/core'
 import { Container } from '@pixi/display'
-import { createContext, ReactNode, useEffect, useLayoutEffect, useState } from 'react'
+import { Ticker } from '@pixi/ticker'
+import { createContext, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 
 type CanvasState = {
   left: number
@@ -8,6 +9,7 @@ type CanvasState = {
   width: number
   height: number
   gl: AbstractRenderer
+  stage: Container
 }
 
 export const CanvasStateContext = createContext({} as CanvasState) // TODO makealwaysthrowobject
@@ -26,22 +28,62 @@ export const useCanvas = ({
   height,
   children
 }: UseCanvasOptions) => {
+
+  const [{
+    stage,
+    defaultContainer,
+    ticker,
+  }] = useState(() => {
+    return {
+      // 根节点，相当于 `document.body`
+      stage: new Container(),
+
+      // 默认容器，相当于 `document.body.querySelector('#root')`
+      defaultContainer: new Container(),
+
+      ticker: Ticker.shared,
+    }
+  })
+
+  const state: CanvasState = useMemo(() => {
+    return {
+
+    }
+  }, [])
+
+  const [Bridge] = useState(() => {
+    return function Bridge (props: { children: ReactNode }) {
+      useEffect(() => {
+        console.info('Bridged')
+      }, [])
+      return props.children
+    }
+  })
+
+  useLayoutEffect(() => {
+
+  }, [Bridge, children])
+  
+  useLayoutEffect(() => {
+    return () => {
+      console.info('dispose')
+    }
+  }, [])
+
+  // 主循环
+  useLayoutEffect(() => {
+    const loop = () => {
+      gl.render(stage)
+    }
+    ticker.add(loop)
+    return () => {
+      ticker.remove(loop)
+    }
+  }, [gl, ticker, stage])
+
+  // 缩放
   useEffect(() => {
     gl.resize(width, height)
   }, [gl, width, height])
 
-  // 根节点，类比 `window.document.body`
-  const [stage] = useState(() => new Container())
-
-  // 默认容器，类比 `document.body.querySelector('#root')`
-  const [defaultContainer] = useState(() => new Container())
-  
-  useLayoutEffect(() => {
-    console.info('mount')
-    console.info(children)
-
-    return () => {
-      console.info('unmount children changed')
-    }
-  }, [children])
 }

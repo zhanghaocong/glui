@@ -8,10 +8,10 @@ import {
 const emptyObject = {}
 
 run(idlePriority, () => {
-  console.info('run(idlePriority)')
+  return
 })
 
-export const Renderer = ReactReconciler({
+export const Reconciler = ReactReconciler({
   now,
   createInstance: () => {},
   removeChild: () => {},
@@ -27,18 +27,13 @@ export const Renderer = ReactReconciler({
   removeChildFromContainer: () => {},
   insertInContainerBefore: () => {},
   commitUpdate(instance: any, updatePayload: any, type: string, oldProps: any, newProps: any, fiber: Reconciler.Fiber) {
-    
   },
   hideInstance(instance: any) {
-    
   },
   unhideInstance(instance: any, props: any) {
-    
   },
   hideTextInstance() {
-    throw new Error(
-      'Text is not allowed in the react-three-fibre tree. You may have extraneous whitespace between components.'
-    )
+    throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
   },
   getPublicInstance(instance: any) {
     return instance
@@ -49,7 +44,9 @@ export const Renderer = ReactReconciler({
   getChildHostContext() {
     return emptyObject
   },
-  createTextInstance() {},
+  createTextInstance() {
+    throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
+  },
   finalizeInitialChildren(instance: any) {
     // https://github.com/facebook/react/issues/20271
     // Returning true will trigger commitMount
