@@ -1,4 +1,4 @@
-import { memo, MutableRefObject, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, MutableRefObject, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import useMeasure, { RectReadOnly } from 'react-use-measure'
 import { useCanvas, UseCanvasOptions } from '../canvas'
 import { makeGl, MakeGlOptions } from '../gl'

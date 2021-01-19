@@ -1,5 +1,6 @@
 import { AbstractRenderer } from '@pixi/core'
-import { createContext, ReactNode, useEffect, useLayoutEffect } from 'react'
+import { Container } from '@pixi/display'
+import { createContext, ReactNode, useEffect, useLayoutEffect, useState } from 'react'
 
 type CanvasState = {
   left: number
@@ -29,6 +30,12 @@ export const useCanvas = ({
     gl.resize(width, height)
   }, [gl, width, height])
 
+  // 根节点，类比 `window.document.body`
+  const [stage] = useState(() => new Container())
+
+  // 默认容器，类比 `document.body.querySelector('#root')`
+  const [defaultContainer] = useState(() => new Container())
+  
   useLayoutEffect(() => {
     console.info('mount')
     console.info(children)
