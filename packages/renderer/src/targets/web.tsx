@@ -19,7 +19,7 @@ export const Canvas = memo(({
   ...wrapperProps
 }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>()
-  const [bind, rect] = useMeasure({ scroll: true, debounce: { scroll: 50, resize: 0 }})
+  const [bind, rect] = useMeasure({ scroll: true, debounce: { scroll: 50, resize: 1/60 }})
   const pixelRatio = usePixelRatio()
   const ready = useReady(rect)
   
@@ -40,7 +40,7 @@ export const Canvas = memo(({
     <div ref={ bind } style={{ ...defaultStyles, ...style }} {...wrapperProps}>
       <canvas ref={ canvasRef as MutableRefObject<HTMLCanvasElement> } style={{ display: 'block' }} />
       { initGl }
-      <Stats />
+      { false && <Stats /> }
     </div>
   )
 })
@@ -56,6 +56,7 @@ const InitGl = ({
   pixelRatio,
   children,
 }: InitGlProps) => {
+  console.info(width, height)
   const [gl] = useState(() => {
     return makeGl({
       surface,

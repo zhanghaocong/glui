@@ -1,9 +1,10 @@
 import { AbstractRenderer } from '@pixi/core'
 import { Container } from '@pixi/display'
-import { Ticker } from '@pixi/ticker'
-import { createContext, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { Ticker, UPDATE_PRIORITY } from '@pixi/ticker'
+import { createContext, ReactNode, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { render } from './renderer'
 
-type CanvasState = {
+export type CanvasState = {
   left: number
   top: number
   width: number
@@ -24,6 +25,8 @@ export type UseCanvasOptions = {
 }
 export const useCanvas = ({
   gl,
+  left,
+  top,
   width,
   height,
   children
@@ -46,24 +49,58 @@ export const useCanvas = ({
   })
 
   const state: CanvasState = useMemo(() => {
-    return {
-
+    console.group('CanvasState changed')
+    const nextState = {
+      gl,
+      stage,
+      ticker,
+      left,
+      top,
+      width,
+      height,
     }
-  }, [])
+    console.info(nextState)
+    console.groupEnd()
+    return nextState
+  }, [
+    gl,
+    stage,
+    ticker,
+    left,
+    top,
+    width,
+    height,
+  ])
 
   const [Bridge] = useState(() => {
-    return function Bridge (props: { children: ReactNode }) {
+    return function Bridge (props: { children: JSX.Element }): JSX.Element {
       useEffect(() => {
-        console.info('Bridged')
+        console.info('ready')
       }, [])
       return props.children
     }
   })
 
   useLayoutEffect(() => {
-
-  }, [Bridge, children])
+    render(
+      <Bridge>
+        <CanvasStateContext.Provider value={state}>
+          { children }
+        </CanvasStateContext.Provider>
+      </Bridge>,
+      defaultContainer,
+      state,
+    )
+  }, [Bridge, children, defaultContainer, state])
   
+  // useEffect(() => {
+  //   const g = new Graphics()
+  //   g.beginFill(0xff0000)
+  //   g.drawRect(0, 0, 100, 100)
+  //   g.endFill()
+  //   stage.addChild(g)
+  // }, [stage])
+
   useLayoutEffect(() => {
     return () => {
       console.info('dispose')
@@ -75,7 +112,7 @@ export const useCanvas = ({
     const loop = () => {
       gl.render(stage)
     }
-    ticker.add(loop)
+    ticker.add(loop, null, UPDATE_PRIORITY.LOW)
     return () => {
       ticker.remove(loop)
     }
