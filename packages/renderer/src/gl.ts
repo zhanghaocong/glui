@@ -3,7 +3,6 @@ import { InteractionManager } from '@pixi/interaction'
 import { Prepare } from '@pixi/prepare'
 import { skipHello } from '@pixi/utils'
 
-
 let configureRenderer = () => {
   skipHello()
   Renderer.registerPlugin('interaction', InteractionManager)

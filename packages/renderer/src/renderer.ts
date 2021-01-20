@@ -2,7 +2,7 @@ import { Texture } from '@pixi/core'
 import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
 import type { ReactNode } from 'react'
-import ReactReconciler, { FiberRoot, OpaqueHandle } from 'react-reconciler'
+import Reconciler, { FiberRoot, OpaqueHandle } from 'react-reconciler'
 import {
   unstable_IdlePriority as idlePriority,
   unstable_now as now,
@@ -18,9 +18,9 @@ run(idlePriority, () => {
   return
 })
 
-type StateContainer = Container & { __state: CanvasState }
+type StateContainer = Container & { __state?: CanvasState }
 
-export const Reconciler = ReactReconciler({
+export const Renderer = Reconciler({
   now,
   createInstance: (
     type: string,
@@ -56,8 +56,8 @@ export const Reconciler = ReactReconciler({
     }
     throw new Error(`无效的 type ${type}`)
   },
-  removeChild: () => {
-
+  removeChild: (parentInstance: Container, child: DisplayObject) => {
+    parentInstance.removeChild(child)
   },
   appendChild: (parentInstance: Container, child: DisplayObject) => {
     console.group('appendChild')
@@ -86,12 +86,14 @@ export const Reconciler = ReactReconciler({
     console.info(container, child)
 
     if (!container.parent) {
-      container.__state.stage.addChild(container)
+      container.__state?.stage.addChild(container)
     }
     container.addChild(child)
     console.groupEnd()
   },
-  removeChildFromContainer: () => {},
+  removeChildFromContainer: (container: StateContainer, child: DisplayObject) => {
+    container.removeChild(child)
+  },
   insertInContainerBefore: () => {},
   commitUpdate(instance: any, updatePayload: any, type: string, oldProps: any, newProps: any, fiber: Reconciler.Fiber) {
   },
@@ -142,6 +144,12 @@ export const Reconciler = ReactReconciler({
   },
 })
 
+Renderer.injectIntoDevTools({
+  bundleType: process.env.NODE_ENV === 'production' ? 0 : 1,
+  version: process.env.PKG_VERSION ?? '0.0.0',
+  rendererPackageName: '@react-canvas-ui/renderer',
+})
+
 export function render(
   element: ReactNode,
   container: Container,
@@ -152,18 +160,26 @@ export function render(
   console.info({ element, container, state }, { root })
   if (!root) {
     (container as StateContainer).__state = state
-    const newRoot = (root = Reconciler.createContainer(
+    const newRoot = (root = Renderer.createContainer(
       container,
       false,
       false,
     ))
     roots.set(container, newRoot)
   }
-  Reconciler.updateContainer(element, root, null, () => undefined)
+  Renderer.updateContainer(element, root, null, () => undefined)
   console.groupEnd()
-  return Reconciler.getPublicRootInstance(root)
+  return Renderer.getPublicRootInstance(root)
 }
 
-const Debug = <T>(hostConfig: T) => {
-  return hostConfig
+export function unmountComponentAtNode(container: Container, callback?: (c: Container) => void) {
+  const root = roots.get(container)
+  if (root) {
+    Renderer.updateContainer(null, root, null, () => {
+      (container as StateContainer).__state?.stage.removeChild(container)
+      delete (container as StateContainer).__state
+      roots.delete(container)
+      callback?.(container)
+    })
+  }
 }

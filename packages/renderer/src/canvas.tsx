@@ -2,7 +2,7 @@ import { AbstractRenderer } from '@pixi/core'
 import { Container } from '@pixi/display'
 import { Ticker, UPDATE_PRIORITY } from '@pixi/ticker'
 import { createContext, ReactNode, useEffect, useLayoutEffect, useMemo, useState } from 'react'
-import { render } from './renderer'
+import { render, unmountComponentAtNode } from './renderer'
 
 export type CanvasState = {
   left: number
@@ -101,11 +101,6 @@ export const useCanvas = ({
   //   stage.addChild(g)
   // }, [stage])
 
-  useLayoutEffect(() => {
-    return () => {
-      console.info('dispose')
-    }
-  }, [])
 
   // 主循环
   useLayoutEffect(() => {
@@ -117,6 +112,14 @@ export const useCanvas = ({
       ticker.remove(loop)
     }
   }, [gl, ticker, stage])
+
+  useEffect(() => {
+    return () => {
+      ticker.destroy()
+      stage.destroy()
+      unmountComponentAtNode(defaultContainer)
+    }
+  }, [defaultContainer, ticker, stage])
 
   // 缩放
   useEffect(() => {
