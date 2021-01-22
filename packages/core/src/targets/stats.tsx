@@ -5,6 +5,8 @@ export const Stats: FC = () => {
 
   useEffect(() => {
     const inst = new StatsJS()
+    inst.dom.style.left = ''
+    inst.dom.style.right = '0'
     document.body.append(inst.dom)
 
     let rafId: number

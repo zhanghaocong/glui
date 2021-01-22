@@ -1,14 +1,16 @@
 import { Texture } from '@pixi/core'
 import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
-import type { ReactNode } from 'react'
-import Reconciler, { FiberRoot, OpaqueHandle } from 'react-reconciler'
+import { Text } from '@pixi/text'
+import type { Key, ReactNode } from 'react'
+import { FiberRoot, OpaqueHandle } from 'react-reconciler'
 import {
   unstable_IdlePriority as idlePriority,
   unstable_now as now,
   unstable_runWithPriority as run
 } from 'scheduler'
 import type { CanvasState } from './canvas'
+import { Reconciler } from './reconciler'
 
 const emptyObject = {}
 
@@ -29,15 +31,6 @@ export const Renderer = Reconciler({
     hostContext: unknown,
     internalInstanceHandle: OpaqueHandle,
   ): DisplayObject => {
-    console.group('createInstance')
-    console.info({
-      type,
-      props,
-      rootContainerInstance,
-      hostContext,
-      internalInstanceHandle,
-    })
-    console.groupEnd()
     if (type === 'Sprite') {
       const instance = new Sprite(Texture.from(props.href))
       instance.position.set(props.x, props.y)
@@ -53,6 +46,10 @@ export const Renderer = Reconciler({
       const instance = new Container()
       instance.position.set(props.x, props.y)
       return instance
+    } else if (type === 'Text') {
+      const instance = new Text(props.content)
+      instance.position.set(props.x ?? 0, props.y ?? 0)
+      return instance
     }
     throw new Error(`无效的 type ${type}`)
   },
@@ -60,15 +57,11 @@ export const Renderer = Reconciler({
     parentInstance.removeChild(child)
   },
   appendChild: (parentInstance: Container, child: DisplayObject) => {
-    console.group('appendChild')
     parentInstance.addChild(child)
-    console.groupEnd()
   },
   insertBefore: (parentInstance: Container, child: DisplayObject, beforeChild: DisplayObject) => {
-    console.group('insertBefore')
     const index = parentInstance.getChildIndex(beforeChild)
     parentInstance.addChildAt(child, index)
-    console.groupEnd()
   },
   supportsMutation: true,
   isPrimaryRenderer: false,
@@ -76,26 +69,16 @@ export const Renderer = Reconciler({
   clearTimeout: window.clearTimeout,
   noTimeout: -1,
   appendInitialChild: (parentInstance: Container, child: DisplayObject) => {
-    console.group('appendInitialChild')
-    console.info(parentInstance, child)
     parentInstance.addChild(child)
-    console.groupEnd()
   },
   appendChildToContainer: (container: StateContainer, child: DisplayObject) => {
-    console.group('appendChildToContainer')
-    console.info(container, child)
-
-    if (!container.parent) {
-      container.__state?.stage.addChild(container)
-    }
     container.addChild(child)
-    console.groupEnd()
   },
   removeChildFromContainer: (container: StateContainer, child: DisplayObject) => {
     container.removeChild(child)
   },
   insertInContainerBefore: () => {},
-  commitUpdate(instance: any, updatePayload: any, type: string, oldProps: any, newProps: any, fiber: Reconciler.Fiber) {
+  commitUpdate(instance: any, updatePayload: any, type: string, oldProps: any, newProps: any, fiber: OpaqueHandle) {
   },
   hideInstance(instance: any) {
   },
@@ -107,11 +90,11 @@ export const Renderer = Reconciler({
   getPublicInstance(instance: any) {
     return instance
   },
-  getRootHostContext() {
-    return emptyObject
+  getRootHostContext(rootContainerInstance: StateContainer) {
+    return rootContainerInstance.__state
   },
-  getChildHostContext() {
-    return emptyObject
+  getChildHostContext(parentHostContext: unknown, type: string, rootContainerInstance: StateContainer) {
+    return parentHostContext
   },
   createTextInstance() {
     throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
@@ -123,9 +106,6 @@ export const Renderer = Reconciler({
     rootContainerInstance: Container,
     hostContext: unknown,
   ) {
-    console.group('finalizeInitialChildren')
-    console.info({ parentInstance, type, rootContainerInstance, hostContext,})
-    console.groupEnd()
     return false
   },
   commitMount(instance: any /*, type, props*/) {
@@ -164,9 +144,9 @@ export function render(
   container: Container,
   state: CanvasState,
 ) {
-  console.group('render')
+  console.group('render', { element, container, state })
   let root = roots.get(container)
-  console.info({ element, container, state }, { root })
+  console.info({ root })
   if (!root) {
     (container as StateContainer).__state = state
     const newRoot = (root = Renderer.createContainer(
@@ -185,10 +165,33 @@ export function unmountComponentAtNode(container: Container, callback?: (c: Cont
   const root = roots.get(container)
   if (root) {
     Renderer.updateContainer(null, root, null, () => {
-      (container as StateContainer).__state?.stage.removeChild(container)
+
+      // 移除 container，此时 container.parent 一定是 stage
+      container.parent?.removeChild(container)
+
       delete (container as StateContainer).__state
       roots.delete(container)
       callback?.(container)
     })
+    return true
+  }
+  return false
+}
+
+const hasSymbol = typeof Symbol === 'function' && Symbol.for
+const REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca
+
+export function createPortal(
+  children: ReactNode,
+  containerInfo?: Container, 
+  implementation?: any, 
+  key: Key = ''
+) {
+  return {
+    $$typeof: REACT_PORTAL_TYPE,
+    key,
+    children,
+    containerInfo,
+    implementation,
   }
 }

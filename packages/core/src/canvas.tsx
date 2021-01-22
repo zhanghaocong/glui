@@ -37,7 +37,7 @@ export const useCanvas = ({
     defaultContainer,
     ticker,
   }] = useState(() => {
-    return {
+    const res = {
       // 根节点，相当于 `document.body`
       stage: new Container(),
 
@@ -46,6 +46,8 @@ export const useCanvas = ({
 
       ticker: Ticker.shared,
     }
+    res.stage.addChild(res.defaultContainer)
+    return res
   })
 
   const state: CanvasState = useMemo(() => {
@@ -93,15 +95,6 @@ export const useCanvas = ({
     )
   }, [Canvas, children, defaultContainer, state])
   
-  // useEffect(() => {
-  //   const g = new Graphics()
-  //   g.beginFill(0xff0000)
-  //   g.drawRect(0, 0, 100, 100)
-  //   g.endFill()
-  //   stage.addChild(g)
-  // }, [stage])
-
-
   // 主循环
   useLayoutEffect(() => {
     const loop = () => {

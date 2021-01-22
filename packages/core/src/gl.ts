@@ -18,6 +18,7 @@ export type MakeGlOptions = {
   height: number
   pixelRatio?: number
   antialias?: boolean
+  backgroundColor?: number
 }
 
 export const makeGl = ({
@@ -26,6 +27,7 @@ export const makeGl = ({
   height,
   pixelRatio,
   antialias,
+  backgroundColor = 0xEFEFEF,
 }: MakeGlOptions) => {
   configureRenderer()
   const gl = Renderer.create({
@@ -35,6 +37,7 @@ export const makeGl = ({
     resolution: pixelRatio,
     autoDensity: true,
     antialias,
+    backgroundColor,
   })
   return gl
 }
