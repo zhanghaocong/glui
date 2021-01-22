@@ -10,6 +10,7 @@
     "distclean": "rimraf \"{packages,out}/*/{.tsbuildinfo,dist}\"",
     "predev": "yarn distclean",
     "dev": "lerna run dev --parallel",
+    "examples": "pushd applications/example && yarn storybook; popd",
     "build": "rollup -c"
   },
   "devDependencies": {

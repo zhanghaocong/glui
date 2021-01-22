@@ -1,6 +1,6 @@
 import { Surface, Container, Sprite } from '@react-canvas-ui/core'
 import { FC } from 'react'
-import BunnyImage from './assets/bunny.png'
+import BunnyImage from '../assets/bunny.png'
 
 export const HelloWorld: FC = () => {
   return (
@@ -13,9 +13,4 @@ export const HelloWorld: FC = () => {
       </Container>
     </Surface>
   )
-}
-
-export default {
-  title: 'renderer/Canvas',
-  decorators: [(Story: FC) => <div style={{ width: '100%', height: '100vh' }}><Story/></div>]
 }
