@@ -38,12 +38,12 @@ export const Renderer = Reconciler({
       internalInstanceHandle,
     })
     console.groupEnd()
-    if (type === 'Image') {
+    if (type === 'Sprite') {
       const instance = new Sprite(Texture.from(props.href))
       instance.position.set(props.x, props.y)
       instance.interactive = true
       instance.buttonMode = true
-      instance.pivot.set(0.5)
+      instance.anchor.set(0.5)
       instance.on('pointerdown', function (this: DisplayObject) {
         this.scale.x *= 1.25
         this.scale.y *= 1.25
@@ -116,7 +116,16 @@ export const Renderer = Reconciler({
   createTextInstance() {
     throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
   },
-  finalizeInitialChildren(instance: any) {
+  finalizeInitialChildren(
+    parentInstance: Container,
+    type: string,
+    props: Record<string, any>,
+    rootContainerInstance: Container,
+    hostContext: unknown,
+  ) {
+    console.group('finalizeInitialChildren')
+    console.info({ parentInstance, type, rootContainerInstance, hostContext,})
+    console.groupEnd()
     return false
   },
   commitMount(instance: any /*, type, props*/) {
@@ -147,7 +156,7 @@ export const Renderer = Reconciler({
 Renderer.injectIntoDevTools({
   bundleType: process.env.NODE_ENV === 'production' ? 0 : 1,
   version: process.env.PKG_VERSION ?? '0.0.0',
-  rendererPackageName: '@react-canvas-ui/renderer',
+  rendererPackageName: '@react-canvas-ui/core',
 })
 
 export function render(

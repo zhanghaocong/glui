@@ -1,11 +1,11 @@
 {
-  "name": "@react-canvas-ui/renderer",
+  "name": "@react-canvas-ui/core",
   "version": "0.0.1-alpha.9",
-  "description": "React renderer of react-canvas-ui",
+  "description": "react-canvas-ui core",
   "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
   "license": "MIT",
-  "main": "dist/umd/renderer.js",
+  "main": "dist/umd/core.js",
   "module": "dist/esm/index.js",
   "publishConfig": {
     "access": "public"
@@ -43,7 +43,6 @@
     "@pixi/prepare": "6.0.0-rc.2",
     "@pixi/sprite": "6.0.0-rc.2",
     "@pixi/ticker": "6.0.0-rc.2",
-    "@react-canvas-ui/components": "^0.0.1-alpha.9",
     "react-use-measure": "^2.0.3"
   }
 }

@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
   },
-  "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2"
+  "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2",
+  "dependencies": {
+    "@react-canvas-ui/core": "^0.0.1-alpha.9"
+  }
 }

@@ -11,13 +11,13 @@ const defaultStyles: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-type CanvasProps = React.HTMLAttributes<HTMLDivElement>
+type SurfaceProps = React.HTMLAttributes<HTMLDivElement>
 
-export const Canvas = memo(({
+export const Surface = memo(function Surface({
   style,
   children,
   ...wrapperProps
-}: CanvasProps) => {
+}: SurfaceProps) {
   const canvasRef = useRef<HTMLCanvasElement>()
   const [bind, rect] = useMeasure({ scroll: true, debounce: { scroll: 50, resize: 1/60 }})
   const pixelRatio = usePixelRatio()
@@ -40,7 +40,7 @@ export const Canvas = memo(({
     <div ref={ bind } style={{ ...defaultStyles, ...style }} {...wrapperProps}>
       <canvas ref={ canvasRef as MutableRefObject<HTMLCanvasElement> } style={{ display: 'block' }} />
       { initGl }
-      { false && <Stats /> }
+      { <Stats /> }
     </div>
   )
 })
@@ -56,7 +56,6 @@ const InitGl = ({
   pixelRatio,
   children,
 }: InitGlProps) => {
-  console.info(width, height)
   const [gl] = useState(() => {
     return makeGl({
       surface,
@@ -72,7 +71,7 @@ const InitGl = ({
     left,
     width, 
     height, 
-    children
+    children,
   })
   useLayoutEffect(() => () => {
     gl.destroy()

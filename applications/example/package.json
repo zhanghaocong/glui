@@ -23,19 +23,22 @@
     ]
   },
   "devDependencies": {
-    "@react-canvas-ui/renderer": "^0.0.1-alpha.9",
+    "@react-canvas-ui/core": "^0.0.1-alpha.9",
+    "@storybook/addon-actions": "^6.1.14",
+    "@storybook/addon-essentials": "^6.1.14",
+    "@storybook/addon-links": "^6.1.14",
+    "@storybook/node-logger": "^6.1.14",
+    "@storybook/preset-create-react-app": "^3.1.5",
+    "@storybook/react": "^6.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4",
-    "@storybook/addon-actions": "^6.1.14",
-    "@storybook/addon-essentials": "^6.1.14",
-    "@storybook/addon-links": "^6.1.14",
-    "@storybook/node-logger": "^6.1.14",
-    "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.14"
+    "web-vitals": "^0.2.4"
+  },
+  "dependencies": {
+    "@react-canvas-ui/core": "^0.0.1-alpha.9"
   }
 }

@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { Canvas } from '@react-canvas-ui/renderer'
+import { Surface } from '@react-canvas-ui/core'
 
 export const Bunnymark: FC = () => {
   return (
-    <div><Canvas /></div>
+    <div><Surface /></div>
   )
 }
 

@@ -72,8 +72,8 @@ export const useCanvas = ({
     height,
   ])
 
-  const [Bridge] = useState(() => {
-    return function Bridge (props: { children: JSX.Element }): JSX.Element {
+  const [Canvas] = useState(() => {
+    return function Canvas (props: { children: JSX.Element }): JSX.Element {
       useEffect(() => {
         console.info('ready')
       }, [])
@@ -83,15 +83,15 @@ export const useCanvas = ({
 
   useLayoutEffect(() => {
     render(
-      <Bridge>
+      <Canvas>
         <CanvasStateContext.Provider value={state}>
           { children }
         </CanvasStateContext.Provider>
-      </Bridge>,
+      </Canvas>,
       defaultContainer,
       state,
     )
-  }, [Bridge, children, defaultContainer, state])
+  }, [Canvas, children, defaultContainer, state])
   
   // useEffect(() => {
   //   const g = new Graphics()
