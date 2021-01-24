@@ -3,7 +3,7 @@
 import { Texture } from '@pixi/core'
 import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
-import { Text } from '@pixi/text'
+import { Text, TextStyle } from '@pixi/text'
 import type { Key, ReactNode } from 'react'
 import { FiberRoot, OpaqueHandle } from 'react-reconciler'
 import {
@@ -50,7 +50,9 @@ export const Renderer = Reconciler({
       instance.position.set(props.x, props.y)
       return instance
     } else if (type === 'Text') {
-      const instance = new Text(props.content)
+      const instance = new Text(props.content, {
+        fontSize: 20
+      })
       instance.position.set(props.x ?? 0, props.y ?? 0)
       return instance
     }

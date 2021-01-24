@@ -7,6 +7,7 @@ import type { Key, ReactElement, ReactNode, Ref } from 'react'
 export * from './hooks'
 export * from './renderer'
 export * from './targets/web'
+export { useCanvasState, CanvasState } from './canvas'
 
 export type ContainerProps = {
   x?: number

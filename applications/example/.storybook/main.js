@@ -5,8 +5,10 @@ module.exports = {
   ],
   "addons": [
     // "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-storysource",
+    // "@storybook/addon-essentials",
+    {
+      name: '@storybook/addon-storysource',
+    },
     "@storybook/preset-create-react-app",
   ]
 }

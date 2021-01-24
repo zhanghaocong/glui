@@ -1,7 +1,7 @@
 import { AbstractRenderer } from '@pixi/core'
 import { Container } from '@pixi/display'
 import { Ticker, UPDATE_PRIORITY } from '@pixi/ticker'
-import { createContext, ReactNode, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { createContext, ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { render, unmountComponentAtNode } from './renderer'
 
 export type CanvasState = {
@@ -14,6 +14,10 @@ export type CanvasState = {
 }
 
 export const CanvasStateContext = createContext({} as CanvasState) // TODO makealwaysthrowobject
+
+export const useCanvasState = () => {
+  return useContext(CanvasStateContext)
+}
 
 export type UseCanvasOptions = {
   gl: AbstractRenderer

@@ -27,7 +27,7 @@
     "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
   },
   "devDependencies": {
-    "@storybook/addon-storysource": "^6.1.14",
+    "@storybook/addon-storysource": "^6.1.15",
     "@types/react-reconciler": "^0.18.0",
     "@types/scheduler": "^0.16.1",
     "@types/stats.js": "^0.17.0",
