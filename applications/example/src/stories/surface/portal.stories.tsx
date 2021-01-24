@@ -2,15 +2,25 @@ import { Container, createElement, createPortal, Surface, Text } from '@react-ca
 import { FC, useRef, useState } from 'react'
 
 export const Portal: FC = () => {
+  const [resolveStage, portalContainer] = usePortalContainer()
+  return (
+    <Surface>
+      <Container ref={resolveStage} key="c1" x={100} y={75}>
+        <Text content='普通创建' />
+        { createPortal(<Text content='通过 createPortal 创建' x={100} />, portalContainer) }
+      </Container>
+    </Surface>
+  )
+}
 
+const usePortalContainer = () => {
   const [portalContainer] = useState(() => {
     return createElement('Container')
   })
-
-  // TODO 更方便使用 stage
   const stage = useRef<Container>()
-  const setStageFromContainer = (instance: Container) => {
-    console.info('setStage', instance)
+
+  // TODO 优化 Stage 获取方式
+  const resolveStage = (instance: Container) => {
     const nextStage = instance?.parent as Container
     if (nextStage === stage.current) {
       return
@@ -23,13 +33,5 @@ export const Portal: FC = () => {
       nextStage.addChild(portalContainer)
     }
   }
-
-  return (
-    <Surface>
-      <Container ref={setStageFromContainer} key="c1" x={100} y={75}>
-        <Text content='普通创建' />
-        { createPortal(<Text content='通过 createPortal 创建' x={100} />, portalContainer) }
-      </Container>
-    </Surface>
-  )
+  return [resolveStage, portalContainer] as const
 }

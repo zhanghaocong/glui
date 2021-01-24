@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Texture } from '@pixi/core'
 import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
@@ -26,6 +28,7 @@ export const Renderer = Reconciler({
   now,
   createInstance: (
     type: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     props: Record<string, any>,
     rootContainerInstance: StateContainer,
     hostContext: unknown,
@@ -124,12 +127,14 @@ export const Renderer = Reconciler({
   preparePortalMount() {
     return null
   },
-  resetAfterCommit() {},
+  resetAfterCommit(containerInfo: Container) {
+    
+  },
   shouldSetTextContent() {
     return false
   },
-  clearContainer() {
-    return false
+  clearContainer(container: Container) {
+    container.removeChildren()
   },
 })
 

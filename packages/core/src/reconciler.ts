@@ -3,11 +3,24 @@ import ReactReconciler from 'react-reconciler'
 
 export const Reconciler = process.env.DEBUG_RECONCILER ? DebugReconciler : ReactReconciler
 
+type Primitive = boolean | number | undefined | number | string | symbol
+const isPrimitive = (val: unknown): val is Primitive => {
+  if (typeof val === 'object') {
+    return val === null;
+  }
+  return typeof val !== 'function'
+}
+
 const log = <F extends (...args: any[]) => any>(label: string, fn: F): F => {
   const enhanced = (...args: any[]) => {
     console.group(label, args)
     const val = fn(...args)
-    console.groupCollapsed('return')
+    const primitive = isPrimitive(val)
+    if (primitive) {
+      console.groupCollapsed(`return ${val}`)
+    } else {
+      console.groupCollapsed('return')
+    }
     console.info(val)
     console.groupEnd()
     console.groupEnd()
