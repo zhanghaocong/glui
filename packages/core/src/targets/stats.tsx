@@ -1,13 +1,17 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import StatsJS from 'stats.js'
 
 export const Stats: FC = () => {
-
+  const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
+    if (!ref.current) {
+      return
+    }
+
     const inst = new StatsJS()
     inst.dom.style.left = ''
     inst.dom.style.right = '0'
-    document.body.append(inst.dom)
+    ref.current.appendChild(inst.dom)
 
     let rafId: number
     const update = () => {
@@ -21,5 +25,7 @@ export const Stats: FC = () => {
     }
   }, [])
 
-  return null
+  return (
+    <div ref={ ref } />
+  )
 }
