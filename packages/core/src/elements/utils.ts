@@ -1,6 +1,6 @@
-import type { ElementProps, UpdatePayload } from './types'
+import type { UpdatePayload } from './types'
 
-export const defaultApplyProps = (el: any, props: ElementProps) => {
+export const defaultApplyProps = (el: any, props: Record<string, any>) => {
   console.info(el)
   for (const key in props) {
     set(el, key, props[key])
@@ -23,6 +23,6 @@ export const defaultApplyUpdate = (el: any, payload: UpdatePayload) => {
   }
 }
 
-export const defaultDiffProps = (prevProps: ElementProps, nextProps: ElementProps) => {
+export const defaultDiffProps = (prevProps: Record<string, any>, nextProps: Record<string, any>) => {
   return []
 }

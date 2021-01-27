@@ -8,8 +8,7 @@ import { Text } from '@pixi/text'
 import type { Key, ReactNode } from 'react'
 import type { FiberRoot, OpaqueHandle } from 'react-reconciler'
 import { unstable_now as now } from 'scheduler'
-import { createElement } from '.'
-import type { ElementProps } from './elements'
+import { createElement } from './elements'
 import { Reconciler } from './reconciler'
 
 const emptyObject = {}
@@ -17,8 +16,8 @@ const emptyObject = {}
 const roots = new Map<Container, FiberRoot>()
 
 export const Renderer = Reconciler<
-  string, // Type
-  ElementProps,
+  string, // todo replace ElementType
+  Record<string, any>,
   Container,
   DisplayObject,
   Text,
@@ -46,11 +45,7 @@ export const Renderer = Reconciler<
     } else if (type === 'Container') {
       return createElement(type, props as any) // todo
     } else if (type === 'Text') {
-      const instance = new Text(props.content, {
-        fontSize: 20
-      })
-      instance.position.set(props.x ?? 0, props.y ?? 0)
-      return instance
+      return createElement(type, props as any) // todo
     }
     throw new Error(`Unsupported type: ${type}`)
   },

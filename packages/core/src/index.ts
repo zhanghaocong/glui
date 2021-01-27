@@ -39,7 +39,7 @@ export type TextProps = {
   y?: number
   key?: Key
   ref?: Ref<TextElement>
-  content?: string
+  text?: string
 }
 
 export const Text: (props: TextProps) => ReactElement<TextProps, 'Text'> = 'Text' as any

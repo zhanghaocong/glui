@@ -32,9 +32,9 @@ const PortalContent: FC = () => {
     console.info(event)
   }
   return (
-    <Container key='1' buttonMode={ true } interactive={ true } onClick={handleClick} y={height / 2} alpha={0.5}>
-      <Text content='私はガラスを食べられます。それは私を傷つけません。' />
-      { createPortal(<Text content='我能吞下玻璃而不伤身体。' />, portalContainer) }
+    <Container buttonMode={ true } interactive={ true } onClick={handleClick} y={height / 2} alpha={0.5}>
+      <Text text='私はガラスを食べられます。それは私を傷つけません。' />
+      { createPortal(<Text text='我能吞下玻璃而不伤身体。' />, portalContainer) }
     </Container>
   )
 }

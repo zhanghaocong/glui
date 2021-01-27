@@ -1,8 +1,8 @@
 import { Container, DisplayObject } from '@pixi/display'
-import { ContainerDescriptor, ContainerProps } from './container'
+import { ContainerProps, createContainer } from './container'
 import { mixinEventHandlerAccessors } from './event-target'
-import type { ElementProps, ElementType } from './types'
-export type { ElementProps } from './types'
+import { createText, TextProps } from './text'
+import type { ElementType } from './types'
 
 let configureElements = () => {
   mixinEventHandlerAccessors()
@@ -13,11 +13,16 @@ configureElements()
 
 export function createElement (type: 'Container', props?: ContainerProps): Container
 
-export function createElement <T extends ElementType, P extends ElementProps>(type: T, props?: P): DisplayObject {
+export function createElement (type: 'Text', props?: TextProps): Container
+
+export function createElement <
+  T extends ElementType,
+  P extends ContainerProps | TextProps>(type: T, props?: P): DisplayObject {
   if (type === 'Container') {
-    return ContainerDescriptor.create(props)
+    return createContainer(props as ContainerProps)
+  } else if (type === 'Text') {
+    return createText(props as TextProps)
   }
 
   throw new Error(`createElement error: invalid type: ${type}`)
 }
-

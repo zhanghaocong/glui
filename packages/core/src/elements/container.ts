@@ -1,12 +1,10 @@
 import { Container } from '@pixi/display';
 import type { IHitArea } from '@pixi/interaction';
 import type { EventTarget } from './event-target';
-import type { ElementDescriptor, UpdatePayload } from './types';
+import type { UpdatePayload } from './types';
 import { defaultApplyProps, defaultApplyUpdate, defaultDiffProps } from './utils';
 
 export type ContainerProps = {
-
-  // basic props
   x?: number
   y?: number
   scaleX?: number
@@ -25,21 +23,19 @@ export type ContainerProps = {
   interactiveChildren?: boolean
 } & EventTarget
 
-export const ContainerDescriptor: ElementDescriptor<Container, ContainerProps> = {
-  create: props => {
-    const el = new Container()
-    if (props) {
-      defaultApplyProps(el, props)
-    }
-    return el
-  },
-  applyUpdate: defaultApplyUpdate,
-  diffProps: defaultDiffProps,
+export function createContainer (props: ContainerProps) {
+  const el = new Container()
+  if (props) {
+    defaultApplyProps(el, props)
+  }
+  return el
 }
 
+// 告诉 Reconciler 组件如何 diff
+Container.prototype.__diffProps = defaultDiffProps
 
-Container.prototype.__applyUpdate = ContainerDescriptor.applyUpdate
-Container.prototype.__diffProps = ContainerDescriptor.diffProps
+// 告诉 Reconciler 组件如何应用 diff
+Container.prototype.__applyUpdate = defaultApplyUpdate
 
 // Workaround for global mixin 
 type __Container = Container
