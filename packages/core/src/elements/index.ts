@@ -15,7 +15,10 @@ export function createElement (type: 'Container', props?: ContainerProps): Conta
 
 export function createElement (type: 'Text', props?: TextProps): Container
 
-export function createElement <
+/**
+ * 根据类型创建一个 Element
+ */
+export function createElement<
   T extends ElementType,
   P extends ContainerProps | TextProps>(type: T, props?: P): DisplayObject {
   if (type === 'Container') {
