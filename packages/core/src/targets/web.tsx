@@ -11,11 +11,13 @@ const defaultStyles: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-type SurfaceProps = React.HTMLAttributes<HTMLDivElement>
+type SurfaceProps = Pick<UseCanvasOptions, 'onReady'>
+  & React.HTMLAttributes<HTMLDivElement>
 
 export const Surface = memo(function Surface({
   style,
   children,
+  onReady,
   ...wrapperProps
 }: SurfaceProps) {
   const canvasRef = useRef<HTMLCanvasElement>()
@@ -31,6 +33,7 @@ export const Surface = memo(function Surface({
       width={ rect.width }
       height={ rect.height }
       pixelRatio={ pixelRatio }
+      onReady={ onReady }
     >
       { children }
     </InitGl>
@@ -45,7 +48,8 @@ export const Surface = memo(function Surface({
   )
 })
 
-type InitGlProps = MakeGlOptions & Pick<UseCanvasOptions, 'children' | 'top' | 'left'>
+type InitGlProps = MakeGlOptions
+  & Pick<UseCanvasOptions, 'children' | 'top' | 'left' | 'onReady'>
 
 const InitGl = ({
   surface,
@@ -55,6 +59,7 @@ const InitGl = ({
   height,
   pixelRatio,
   children,
+  onReady,
 }: InitGlProps) => {
   const [gl] = useState(() => {
     return makeGl({
@@ -72,6 +77,7 @@ const InitGl = ({
     width, 
     height, 
     children,
+    onReady,
   })
   useLayoutEffect(() => () => {
     gl.destroy()

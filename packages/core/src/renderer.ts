@@ -1,39 +1,37 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Texture } from '@pixi/core'
 import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
-import { Text, TextStyle } from '@pixi/text'
+import { Text } from '@pixi/text'
 import type { Key, ReactNode } from 'react'
-import { FiberRoot, OpaqueHandle } from 'react-reconciler'
-import {
-  unstable_IdlePriority as idlePriority,
-  unstable_now as now,
-  unstable_runWithPriority as run
-} from 'scheduler'
-import type { CanvasState } from './canvas'
+import type { FiberRoot, OpaqueHandle } from 'react-reconciler'
+import { unstable_now as now } from 'scheduler'
+import { createElement } from '.'
+import type { ElementProps } from './elements'
 import { Reconciler } from './reconciler'
 
 const emptyObject = {}
 
 const roots = new Map<Container, FiberRoot>()
 
-run(idlePriority, () => {
-  return
-})
-
-type StateContainer = Container & { __state?: CanvasState }
-
-export const Renderer = Reconciler({
+export const Renderer = Reconciler<
+  string, // Type
+  ElementProps,
+  Container,
+  DisplayObject,
+  Text,
+  unknown,
+  DisplayObject,
+  unknown, // 
+  any[], // UpdatePayload
+  unknown, // ChildSet 暂时没有用到
+  number, // setTimeout 的返回值
+  -1
+  >({
   now,
-  createInstance: (
-    type: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    props: Record<string, any>,
-    rootContainerInstance: StateContainer,
-    hostContext: unknown,
-    internalInstanceHandle: OpaqueHandle,
-  ): DisplayObject => {
+  createInstance: (type, props, rootContainerInstance, hostContext, internalInstanceHandle) => {
     if (type === 'Sprite') {
       const instance = new Sprite(Texture.from(props.href))
       instance.position.set(props.x, props.y)
@@ -46,9 +44,7 @@ export const Renderer = Reconciler({
       })
       return instance
     } else if (type === 'Container') {
-      const instance = new Container()
-      instance.position.set(props.x, props.y)
-      return instance
+      return createElement(type, props as any) // todo
     } else if (type === 'Text') {
       const instance = new Text(props.content, {
         fontSize: 20
@@ -56,10 +52,11 @@ export const Renderer = Reconciler({
       instance.position.set(props.x ?? 0, props.y ?? 0)
       return instance
     }
-    throw new Error(`无效的 type ${type}`)
+    throw new Error(`Unsupported type: ${type}`)
   },
   removeChild: (parentInstance: Container, child: DisplayObject) => {
     parentInstance.removeChild(child)
+    child.destroy(true)
   },
   appendChild: (parentInstance: Container, child: DisplayObject) => {
     parentInstance.addChild(child)
@@ -69,40 +66,45 @@ export const Renderer = Reconciler({
     parentInstance.addChildAt(child, index)
   },
   supportsMutation: true,
+  supportsPersistence: false,
+  supportsHydration: false,
   isPrimaryRenderer: false,
-  setTimeout: window.setTimeout,
-  clearTimeout: window.clearTimeout,
+  scheduleTimeout: window.setTimeout,
+  cancelTimeout: window.clearTimeout,
   noTimeout: -1,
   appendInitialChild: (parentInstance: Container, child: DisplayObject) => {
     parentInstance.addChild(child)
   },
-  appendChildToContainer: (container: StateContainer, child: DisplayObject) => {
+  appendChildToContainer: (container: Container, child: DisplayObject) => {
     container.addChild(child)
   },
-  removeChildFromContainer: (container: StateContainer, child: DisplayObject) => {
+  removeChildFromContainer: (container: Container, child: DisplayObject) => {
     container.removeChild(child)
+    child.destroy(true)
   },
   insertInContainerBefore: () => {},
-  commitUpdate(instance: any, updatePayload: any, type: string, oldProps: any, newProps: any, fiber: OpaqueHandle) {
+  commitUpdate(instance, updatePayload, type, prevProps, nextProps, internalHandle) {
   },
-  hideInstance(instance: any) {
+  hideInstance(instance) {
+    instance.visible = false
   },
-  unhideInstance(instance: any, props: any) {
+  unhideInstance(instance) {
+    instance.visible = true
   },
   hideTextInstance() {
-    throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
+    throw new Error('要渲染文本，请使用 <Text content="">')
   },
-  getPublicInstance(instance: any) {
+  getPublicInstance(instance) {
     return instance
   },
-  getRootHostContext(rootContainerInstance: StateContainer) {
-    return rootContainerInstance.__state
+  getRootHostContext(rootContainerInstance: Container) {
+    return emptyObject
   },
-  getChildHostContext(parentHostContext: unknown, type: string, rootContainerInstance: StateContainer) {
+  getChildHostContext(parentHostContext: unknown, type: string, rootContainerInstance: Container) {
     return parentHostContext
   },
   createTextInstance() {
-    throw new Error('不支持文本节点，请使用 <Text> 渲染文本')
+    throw new Error('要渲染文本，请使用 <Text content="">')
   },
   finalizeInitialChildren(
     parentInstance: Container,
@@ -113,12 +115,21 @@ export const Renderer = Reconciler({
   ) {
     return false
   },
-  commitMount(instance: any /*, type, props*/) {
-    // https://github.com/facebook/react/issues/20271
-    // This will make sure events are only added once to the central container
+  commitMount(instance: DisplayObject,
+    type: string,
+    newProps: Record<string, any>,
+    internalInstanceHandle: OpaqueHandle
+  ) {
   },
-  prepareUpdate() {
-    return emptyObject
+  prepareUpdate(
+    instance,
+    type,
+    oldProps,
+    newProps,
+    rootContainerInstance,
+    hostContext
+  ) {
+    return null
   },
   shouldDeprioritizeSubtree() {
     return false
@@ -129,9 +140,7 @@ export const Renderer = Reconciler({
   preparePortalMount() {
     return null
   },
-  resetAfterCommit(containerInfo: Container) {
-    
-  },
+  resetAfterCommit(containerInfo: Container) { },
   shouldSetTextContent() {
     return false
   },
@@ -149,13 +158,11 @@ Renderer.injectIntoDevTools({
 export function render(
   element: ReactNode,
   container: Container,
-  state: CanvasState,
 ) {
-  console.group('render', { element, container, state })
+  console.group('render', { element, container })
   let root = roots.get(container)
   console.info({ root })
   if (!root) {
-    (container as StateContainer).__state = state
     const newRoot = (root = Renderer.createContainer(
       container,
       false,
@@ -172,11 +179,6 @@ export function unmountComponentAtNode(container: Container, callback?: (c: Cont
   const root = roots.get(container)
   if (root) {
     Renderer.updateContainer(null, root, null, () => {
-
-      // 移除 container，此时 container.parent 一定是 stage
-      container.parent?.removeChild(container)
-
-      delete (container as StateContainer).__state
       roots.delete(container)
       callback?.(container)
     })

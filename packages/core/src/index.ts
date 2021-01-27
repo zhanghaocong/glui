@@ -12,6 +12,10 @@ export { useCanvasState, CanvasState } from './canvas'
 export type ContainerProps = {
   x?: number
   y?: number
+  alpha?: number
+  onClick?: (event: unknown) => void
+  interactive?: boolean
+  buttonMode?: boolean
   children?: ReactNode
   key?: Key
   ref?: Ref<ContainerElement>
@@ -40,9 +44,4 @@ export type TextProps = {
 
 export const Text: (props: TextProps) => ReactElement<TextProps, 'Text'> = 'Text' as any
 
-export function createElement (type: 'Container') {
-  if (type === 'Container') {
-    return new ContainerElement()
-  }
-  throw new Error('error')
-}
+export { createElement } from './elements'

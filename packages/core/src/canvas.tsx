@@ -26,6 +26,7 @@ export type UseCanvasOptions = {
   width: number
   height: number
   children: ReactNode
+  onReady?: () => void
 }
 export const useCanvas = ({
   gl,
@@ -33,7 +34,8 @@ export const useCanvas = ({
   top,
   width,
   height,
-  children
+  children,
+  onReady,
 }: UseCanvasOptions) => {
 
   const [{
@@ -81,7 +83,7 @@ export const useCanvas = ({
   const [Canvas] = useState(() => {
     return function Canvas (props: { children: JSX.Element }): JSX.Element {
       useEffect(() => {
-        console.info('ready')
+        onReady?.()
       }, [])
       return props.children
     }
@@ -95,18 +97,16 @@ export const useCanvas = ({
         </CanvasStateContext.Provider>
       </Canvas>,
       defaultContainer,
-      state,
     )
   }, [Canvas, children, defaultContainer, state])
   
-  // 主循环
   useLayoutEffect(() => {
-    const loop = () => {
+    const renderLoop = () => {
       gl.render(stage)
     }
-    ticker.add(loop, null, UPDATE_PRIORITY.LOW)
+    ticker.add(renderLoop, null, UPDATE_PRIORITY.LOW)
     return () => {
-      ticker.remove(loop)
+      ticker.remove(renderLoop)
     }
   }, [gl, ticker, stage])
 

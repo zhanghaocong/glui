@@ -9,6 +9,7 @@ export const Stats: FC = () => {
     }
 
     const inst = new StatsJS()
+    inst.dom.style.position = 'absolute'
     inst.dom.style.left = ''
     inst.dom.style.right = '0'
     ref.current.appendChild(inst.dom)
