@@ -2,3 +2,7 @@
 export type ElementType = 'Container' | 'Image' | 'Text' | 'Graphics' | 'ScrollView'
 
 export type UpdatePayload = any[]
+
+export type AnyElement = any
+
+export type AnyProps = Record<string, any>

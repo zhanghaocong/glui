@@ -1,23 +1,12 @@
-import { Container, DisplayObject } from '@pixi/display'
+import type { DisplayObject } from '@pixi/display'
 import { ContainerProps, createContainer } from './container'
-import { mixinEventHandlerAccessors } from './event-target'
 import { createText, TextProps } from './text'
 import type { ElementType } from './types'
+import './event-target'
+export function createElement (type: 'Container', props?: ContainerProps): ReturnType<typeof createContainer>
 
-let configureElements = () => {
-  mixinEventHandlerAccessors()
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  configureElements = () => {}
-}
-configureElements()
+export function createElement (type: 'Text', props?: TextProps): ReturnType<typeof createText>
 
-export function createElement (type: 'Container', props?: ContainerProps): Container
-
-export function createElement (type: 'Text', props?: TextProps): Container
-
-/**
- * 根据类型创建一个 Element
- */
 export function createElement<
   T extends ElementType,
   P extends ContainerProps | TextProps>(type: T, props?: P): DisplayObject {

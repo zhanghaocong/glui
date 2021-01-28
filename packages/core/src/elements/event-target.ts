@@ -90,14 +90,18 @@ const makeEventHandlerAccessor = (key: EventType) => {
   }
 }
 
-export const mixinEventHandlerAccessors = () => {
+export let mixinEventHandlerAccessors = () => {
   const properties = EventTypes.reduce((acc, key) => {
     acc[key] = makeEventHandlerAccessor(key)[key]
     return acc
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, {} as Record<string, any>)
   Object.defineProperties(DisplayObject.prototype, properties)
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mixinEventHandlerAccessors = () => {}
 }
+mixinEventHandlerAccessors()
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
