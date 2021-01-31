@@ -6,24 +6,29 @@ import { Container, DisplayObject } from '@pixi/display'
 import { Sprite } from '@pixi/sprite'
 import { Text } from '@pixi/text'
 import type { Key, ReactNode } from 'react'
-import type { FiberRoot, OpaqueHandle } from 'react-reconciler'
+import type { FiberRoot } from 'react-reconciler'
 import { unstable_now as now } from 'scheduler'
 import { createElement } from './elements'
 import { Reconciler } from './reconciler'
 
-const emptyObject = {}
-
 const roots = new Map<Container, FiberRoot>()
+
+export enum ReactRootTags {
+  LegacyRoot = 0,
+  BlockingRoot = 1,
+  ConcurrentRoot = 2,
+}
 
 export const Renderer = Reconciler<
   string, // todo replace ElementType
   Record<string, any>,
   Container,
-  DisplayObject,
+  Container,
   Text,
+  Container,
   unknown,
-  DisplayObject,
-  unknown, // 
+  Container,
+  null, // HostContext
   any[], // UpdatePayload
   unknown, // ChildSet 暂时没有用到
   number, // setTimeout 的返回值
@@ -49,14 +54,14 @@ export const Renderer = Reconciler<
     }
     throw new Error(`Unsupported type: ${type}`)
   },
-  removeChild: (parentInstance: Container, child: DisplayObject) => {
+  removeChild: (parentInstance, child) => {
     parentInstance.removeChild(child)
     child.destroy(true)
   },
-  appendChild: (parentInstance: Container, child: DisplayObject) => {
+  appendChild: (parentInstance, child) => {
     parentInstance.addChild(child)
   },
-  insertBefore: (parentInstance: Container, child: DisplayObject, beforeChild: DisplayObject) => {
+  insertBefore: (parentInstance, child, beforeChild) => {
     const index = parentInstance.getChildIndex(beforeChild)
     parentInstance.addChildAt(child, index)
   },
@@ -64,16 +69,21 @@ export const Renderer = Reconciler<
   supportsPersistence: false,
   supportsHydration: false,
   isPrimaryRenderer: false,
-  scheduleTimeout: window.setTimeout,
-  cancelTimeout: window.clearTimeout,
+  scheduleTimeout: setTimeout,
+  cancelTimeout: clearTimeout,
+  queueMicrotask: typeof window.queueMicrotask === 'function'
+    ? globalThis.queueMicrotask
+      : typeof Promise !== 'undefined'
+      ? (callback: (...args: any[]) => any) => Promise.resolve(null).then(callback).catch(handleErrorInNextTick)
+    : setTimeout, // TODO: Determine the best fallback here.
   noTimeout: -1,
-  appendInitialChild: (parentInstance: Container, child: DisplayObject) => {
+  appendInitialChild: (parentInstance, child) => {
     parentInstance.addChild(child)
   },
-  appendChildToContainer: (container: Container, child: DisplayObject) => {
+  appendChildToContainer: (container, child) => {
     container.addChild(child)
   },
-  removeChildFromContainer: (container: Container, child: DisplayObject) => {
+  removeChildFromContainer: (container, child) => {
     container.removeChild(child)
     child.destroy(true)
   },
@@ -92,29 +102,25 @@ export const Renderer = Reconciler<
   getPublicInstance(instance) {
     return instance
   },
-  getRootHostContext(rootContainerInstance: Container) {
-    return emptyObject
+  getRootHostContext(rootContainer) {
+    return null
   },
-  getChildHostContext(parentHostContext: unknown, type: string, rootContainerInstance: Container) {
+  getChildHostContext(parentHostContext, type, rootContainer) {
     return parentHostContext
   },
   createTextInstance() {
     throw new Error('要渲染文本，请使用 <Text content="">')
   },
   finalizeInitialChildren(
-    parentInstance: Container,
-    type: string,
-    props: Record<string, any>,
-    rootContainerInstance: Container,
-    hostContext: unknown,
+    instance,
+    type,
+    props,
+    rootContainer,
+    hostContext,
   ) {
     return false
   },
-  commitMount(instance: DisplayObject,
-    type: string,
-    newProps: Record<string, any>,
-    internalInstanceHandle: OpaqueHandle
-  ) {
+  commitMount(instance, type, newProps, internalHandle) {
   },
   prepareUpdate(
     instance,
@@ -126,20 +132,17 @@ export const Renderer = Reconciler<
   ) {
     return null
   },
-  shouldDeprioritizeSubtree() {
-    return false
-  },
   prepareForCommit() {
     return null
   },
   preparePortalMount() {
     return null
   },
-  resetAfterCommit(containerInfo: Container) { },
+  resetAfterCommit(containerInfo) { },
   shouldSetTextContent() {
     return false
   },
-  clearContainer(container: Container) {
+  clearContainer(container) {
     container.removeChildren()
   },
 })
@@ -153,6 +156,7 @@ Renderer.injectIntoDevTools({
 export function render(
   element: ReactNode,
   container: Container,
+  tag = ReactRootTags.ConcurrentRoot,
 ) {
   console.group('render', { element, container })
   let root = roots.get(container)
@@ -160,8 +164,9 @@ export function render(
   if (!root) {
     const newRoot = (root = Renderer.createContainer(
       container,
+      tag,
       false,
-      false,
+      null,
     ))
     roots.set(container, newRoot)
   }
@@ -198,4 +203,10 @@ export function createPortal(
     containerInfo,
     implementation,
   }
+}
+
+function handleErrorInNextTick(error: unknown) {
+  setTimeout(() => {
+    throw error;
+  });
 }
