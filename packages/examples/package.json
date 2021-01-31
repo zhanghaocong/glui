@@ -1,6 +1,6 @@
 {
   "name": "@glui/example",
-  "version": "0.1.0",
+  "version": "0.0.1-alpha.10",
   "license": "MIT",
   "private": "true",
   "scripts": {
@@ -40,6 +40,6 @@
     "web-vitals": "^0.2.4"
   },
   "dependencies": {
-    "@glui/core": "^0.0.1-alpha.9"
+    "@glui/core": "^0.0.1-alpha.10"
   }
 }
