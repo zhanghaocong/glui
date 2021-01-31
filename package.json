@@ -2,15 +2,14 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "applications/*"
+    "packages/*"
   ],
   "scripts": {
     "lerna": "lerna",
     "distclean": "rimraf \"{packages,out}/*/{.tsbuildinfo,dist}\"",
     "predev": "yarn distclean",
     "dev": "lerna run dev --parallel",
-    "examples": "pushd applications/example && yarn storybook; popd",
+    "examples": "pushd packages/examples && yarn storybook; popd",
     "build": "rollup -c"
   },
   "devDependencies": {
