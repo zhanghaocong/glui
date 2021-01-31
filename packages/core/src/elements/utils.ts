@@ -24,5 +24,7 @@ const set = <T>(el: AnyElement, key: string, value: T) => {
 
 
 export const defaultDiffProps = (prevProps: AnyProps, nextProps: AnyProps) => {
+  prevProps
+  nextProps
   return []
 }

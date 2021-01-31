@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "build": "tsc"
   },
   "bugs": {
     "url": "https://github.com/haocongzhang/glui/issues"

@@ -19,13 +19,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "paths": {},
-    "composite": true,
+    "composite": true
   },
   "include": [
     "./src"
   ],
-  "references": [{
-    "path": "../../packages/core"
-  }]
+  "references": [
+    {
+      "path": "../../packages/core"
+    }
+  ]
 }

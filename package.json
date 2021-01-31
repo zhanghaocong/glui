@@ -8,9 +8,9 @@
     "lerna": "lerna",
     "distclean": "rimraf \"{packages,out}/*/{.tsbuildinfo,dist}\"",
     "predev": "yarn distclean",
-    "dev": "lerna run dev --parallel",
+    "dev": "lerna run dev --no-private --parallel",
     "examples": "pushd packages/examples && yarn storybook; popd",
-    "build": "rollup -c"
+    "build": "lerna run build --no-private --parallel && rollup -c"
   },
   "devDependencies": {
     "@lerna/batch-packages": "^3.16.0",

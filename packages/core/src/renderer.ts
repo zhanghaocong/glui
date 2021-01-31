@@ -35,7 +35,7 @@ export const Renderer = Reconciler<
   -1
   >({
   now,
-  createInstance: (type, props, rootContainerInstance, hostContext, internalInstanceHandle) => {
+  createInstance: (type, props, _rootContainerInstance, _hostContext, _internalInstanceHandle) => {
     if (type === 'Sprite') {
       const instance = new Sprite(Texture.from(props.href))
       instance.position.set(props.x, props.y)
@@ -87,8 +87,8 @@ export const Renderer = Reconciler<
     container.removeChild(child)
     child.destroy(true)
   },
-  insertInContainerBefore: (container, child, beforeChild) => {},
-  commitUpdate(instance, updatePayload, type, prevProps, nextProps, internalHandle) {
+  insertInContainerBefore: (_container, _child, _beforeChild) => {},
+  commitUpdate(_instance, _updatePayload, _type, _prevProps, _nextProps, _internalHandle) {
   },
   hideInstance(instance) {
     instance.visible = false
@@ -96,39 +96,39 @@ export const Renderer = Reconciler<
   unhideInstance(instance) {
     instance.visible = true
   },
-  hideTextInstance(textInstance) {
+  hideTextInstance(_textInstance) {
     throw new Error('要渲染文本，请使用 <Text content="">')
   },
   getPublicInstance(instance) {
     return instance
   },
-  getRootHostContext(rootContainer) {
+  getRootHostContext(_rootContainer) {
     return null
   },
-  getChildHostContext(parentHostContext, type, rootContainer) {
+  getChildHostContext(parentHostContext, _type, _rootContainer) {
     return parentHostContext
   },
   createTextInstance() {
     throw new Error('要渲染文本，请使用 <Text content="">')
   },
   finalizeInitialChildren(
-    instance,
-    type,
-    props,
-    rootContainer,
-    hostContext,
+    _instance,
+    _type,
+    _props,
+    _rootContainer,
+    _hostContext,
   ) {
     return false
   },
-  commitMount(instance, type, newProps, internalHandle) {
+  commitMount(_instance, _type, _newProps, _internalHandle) {
   },
   prepareUpdate(
-    instance,
-    type,
-    oldProps,
-    newProps,
-    rootContainerInstance,
-    hostContext
+    _instance,
+    _type,
+    _oldProps,
+    _newProps,
+    _rootContainerInstance,
+    _hostContext
   ) {
     return null
   },
@@ -138,7 +138,7 @@ export const Renderer = Reconciler<
   preparePortalMount() {
     return null
   },
-  resetAfterCommit(containerInfo) { },
+  resetAfterCommit(_containerInfo) { },
   shouldSetTextContent() {
     return false
   },

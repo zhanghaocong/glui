@@ -20,6 +20,7 @@
         "packages/*/src",
       ]
     },
+    "skipLibCheck": true,
     "declaration": true
   },
   "exclude": [

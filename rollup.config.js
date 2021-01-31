@@ -81,6 +81,7 @@ const getPlugins = ({ __DEV__ }) => {
 const main = async () => {
   const packages = await getSortedPackages()
   return packages
+    .filter(pkg => !!pkg.get('main'))
     .map(pkg => {
       return [true, false].map(__DEV__ => {
         const external = Object.keys(pkg.dependencies || [])
