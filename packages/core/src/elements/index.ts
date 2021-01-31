@@ -3,6 +3,7 @@ import { ContainerProps, createContainer } from './container'
 import { createText, TextProps } from './text'
 import type { ElementType } from './types'
 import './event-target'
+
 export function createElement (type: 'Container', props?: ContainerProps): ReturnType<typeof createContainer>
 
 export function createElement (type: 'Text', props?: TextProps): ReturnType<typeof createText>
