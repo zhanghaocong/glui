@@ -1,6 +1,6 @@
 {
   "name": "@glui/components",
-  "version": "0.0.1-alpha.10",
+  "version": "0.0.1-alpha.11",
   "description": "> TODO: description",
   "author": "Haocong Zhang <kakera@gmail.com>",
   "homepage": "https://github.com/haocongzhang/glui#readme",
@@ -29,6 +29,6 @@
   },
   "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2",
   "dependencies": {
-    "@glui/core": "^0.0.1-alpha.10"
+    "@glui/core": "^0.0.1-alpha.11"
   }
 }
