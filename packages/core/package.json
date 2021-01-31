@@ -1,9 +1,9 @@
 {
-  "name": "@react-canvas-ui/core",
+  "name": "@glui/core",
   "version": "0.0.1-alpha.9",
-  "description": "react-canvas-ui core",
-  "author": "Zhang Haocong <kakera@gmail.com>",
-  "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
+  "description": "glui core",
+  "author": "Haocong Zhang <kakera@gmail.com>",
+  "homepage": "https://github.com/haocongzhang/glui#readme",
   "license": "MIT",
   "main": "dist/umd/core.js",
   "module": "dist/esm/index.js",
@@ -17,14 +17,14 @@
   "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-canvas-ui/react-canvas-ui.git"
+    "url": "git+https://github.com/haocongzhang/glui.git"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "dev": "tsc --watch"
   },
   "bugs": {
-    "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
+    "url": "https://github.com/haocongzhang/glui/issues"
   },
   "devDependencies": {
     "@storybook/addon-storysource": "^6.1.15",

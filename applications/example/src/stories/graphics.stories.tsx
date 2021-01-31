@@ -1,4 +1,4 @@
-import { Container, Surface } from '@react-canvas-ui/core'
+import { Container, Surface } from '@glui/core'
 import { FC } from 'react'
 
 export const Draw: FC = () => {

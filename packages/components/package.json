@@ -1,9 +1,9 @@
 {
-  "name": "@react-canvas-ui/components",
+  "name": "@glui/components",
   "version": "0.0.1-alpha.9",
   "description": "> TODO: description",
-  "author": "Zhang Haocong <kakera@gmail.com>",
-  "homepage": "https://github.com/react-canvas-ui/react-canvas-ui#readme",
+  "author": "Haocong Zhang <kakera@gmail.com>",
+  "homepage": "https://github.com/haocongzhang/glui#readme",
   "license": "MIT",
   "main": "dist/umd/components.js",
   "module": "dist/esm/index.js",
@@ -17,17 +17,17 @@
   "types": "dist/esm/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-canvas-ui/react-canvas-ui.git"
+    "url": "git+https://github.com/haocongzhang/glui.git"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "dev": "tsc --watch"
   },
   "bugs": {
-    "url": "https://github.com/react-canvas-ui/react-canvas-ui/issues"
+    "url": "https://github.com/haocongzhang/glui/issues"
   },
   "gitHead": "f6276348d5ef0b11eb9b8d71fc7f62cce7225af2",
   "dependencies": {
-    "@react-canvas-ui/core": "^0.0.1-alpha.9"
+    "@glui/core": "^0.0.1-alpha.9"
   }
 }

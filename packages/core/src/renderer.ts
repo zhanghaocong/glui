@@ -87,7 +87,7 @@ export const Renderer = Reconciler<
     container.removeChild(child)
     child.destroy(true)
   },
-  insertInContainerBefore: () => {},
+  insertInContainerBefore: (container, child, beforeChild) => {},
   commitUpdate(instance, updatePayload, type, prevProps, nextProps, internalHandle) {
   },
   hideInstance(instance) {
@@ -96,7 +96,7 @@ export const Renderer = Reconciler<
   unhideInstance(instance) {
     instance.visible = true
   },
-  hideTextInstance() {
+  hideTextInstance(textInstance) {
     throw new Error('要渲染文本，请使用 <Text content="">')
   },
   getPublicInstance(instance) {
@@ -150,7 +150,7 @@ export const Renderer = Reconciler<
 Renderer.injectIntoDevTools({
   bundleType: process.env.NODE_ENV === 'production' ? 0 : 1,
   version: process.env.PKG_VERSION ?? '0.0.0',
-  rendererPackageName: '@react-canvas-ui/core',
+  rendererPackageName: '@glui/core',
 })
 
 export function render(

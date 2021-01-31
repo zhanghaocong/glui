@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Surface } from '@react-canvas-ui/core'
+import { Surface } from '@glui/core'
 
 export const Bunnymark: FC = () => {
   return (

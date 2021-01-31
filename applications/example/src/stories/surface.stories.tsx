@@ -1,4 +1,4 @@
-import { Sprite, Container, createElement, createPortal, Surface, Text, useCanvasState } from '@react-canvas-ui/core'
+import { Sprite, Container, createElement, createPortal, Surface, Text, useCanvasState } from '@glui/core'
 import { FC, useState } from 'react'
 import BunnyImage from './assets/bunny.png'
 
