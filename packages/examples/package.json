@@ -1,6 +1,6 @@
 {
   "name": "@glui/examples",
-  "version": "0.0.1-alpha.10",
+  "version": "0.0.1",
   "license": "MIT",
   "private": "true",
   "scripts": {
@@ -25,7 +25,7 @@
     ]
   },
   "devDependencies": {
-    "@glui/core": "^0.0.1-alpha.12",
+    "@glui/core": "^0.0.1",
     "@pixi/filter-drop-shadow": "^3.2.0",
     "@storybook/addon-actions": "^6.1.15",
     "@storybook/addon-essentials": "^6.1.15",
