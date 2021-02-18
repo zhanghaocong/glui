@@ -2,7 +2,7 @@
   "name": "@glui/components",
   "version": "0.0.1",
   "description": "> TODO: description",
-  "author": "Haocong Zhang <kakera@gmail.com>",
+  "author": "Zhang Haocong <kakera@gmail.com>",
   "homepage": "https://github.com/zhanghaocong/glui#readme",
   "license": "MIT",
   "main": "dist/umd/components.js",

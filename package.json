@@ -12,7 +12,8 @@
     "dev:examples": "pushd packages/examples && yarn storybook; popd",
     "build:examples": "pushd packages/examples && yarn build-storybook; popd",
     "publish:examples": "pushd packages/examples && yarn deploy-storybook; popd",
-    "build": "lerna run build --no-private --parallel && rollup -c"
+    "build": "lerna run build --no-private --parallel && rollup -c",
+    "lint": "eslint packages/**/src"
   },
   "devDependencies": {
     "@lerna/batch-packages": "^3.16.0",
